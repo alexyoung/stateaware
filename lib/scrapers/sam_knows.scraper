@@ -1,0 +1,25 @@
+description 'Sam Knows broadband checker'
+name 'Sam Knows'
+data_group_name 'Telecomms'
+default 'search'
+hits 10
+
+site do
+  home 'http://www.samknows.com/'
+  search 'http://www.samknows.com/broadband/checker2.php?p=summary'
+end
+
+task 'search', :args => 'query' do
+  post(site.search, :postcode => query)
+
+  # Get results
+  broadband_enabled = 'No'
+  for_each('div#results', :find_first => ['.flashMsg']).each do |status_message|
+    if status_message and status_message.match /Congratulations/
+      broadband_enabled = 'Yes'
+    end
+  end
+  
+  save({ :link => site.home, :data_summary => {'Broadband Available' => broadband_enabled }, :entity_type => 'Boolean', :address => 'site.search', :name => 'Broadband Available' })
+end
+

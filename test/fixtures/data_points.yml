@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  original_data: MyText
+  data_group_id: 1
+  original_location: MyText
+  longitude: 1.5
+  latitude: 1.5
+  description: MyText
+
+two:
+  original_data: MyText
+  data_group_id: 1
+  original_location: MyText
+  longitude: 1.5
+  latitude: 1.5
+  description: MyText

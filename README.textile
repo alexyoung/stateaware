@@ -1,0 +1,47 @@
+h2. Installation
+
+1. Uses geokit: http://geokit.rubyforge.org/readme.html
+2. Needs MySQL or Postgres (due to geokit's requirements)
+3. Add a Google Maps API key to config/initializers/geokit_config.rb
+4. Sign up and get a key from: http://www.theyworkforyou.com/api/ and put it in config/settings.yml (copy my example file and edit it)
+5. Copy the database.yml.example file and edit it
+
+h2. Background
+
+This is a project for "Rewired State":http://rewiredstate.org/.
+
+*StateAware* aims to *collect, combine and enrich government data* through APIs and screen scraping.  I wanted StateAware to achieve two things:
+
+* The government won't make sensible APIs, so let's do it for them
+* Make people more aware of locally relevant government data (through a web interface and iPhone app)
+
+This is the result of a one day hacking session and isn't even at the proof of concept stage yet, but I'm uploading it in case anyone wants to use the code for something else.  I was in the middle of reworking the ScraperParser to cope with Cookies and copying headers, so it needs to be finished off.
+
+h3. Architecture
+
+* StateAware is written in Rails
+* It collects values from various APIs based on user input and serializes the data in a model called DataPoint
+* If data matching DataPoints have been found recently, it doesn't refetch it from a particular API (effectively caching it so APIs/sites don't get hammered)
+* DataPoints are grouped by DataGroups, APIs and Scrapers.  DataGroups are a generic group that might appear in a user interface (categories really, this could easily have been tags)
+
+h3. Data collection
+
+StateAware collects data through API and Scraper classes.  The APIs are currently subclasses of an ActiveRecord model called Api.  Scrapers are also models, but use a scraper DSL that should make it easier for people to contribute scrapers.
+
+The Scraper DSL was just a quick one I knocked up for the prototype, but isn't friendly enough yet.
+
+h3. Enriching data
+
+I installed GeoKit with the aim of automatically geocoding data.  I also wanted to collect Twitter search info about a particular DataPoint for its location.  Another interesting search would be news items (perhaps from Google News or the BBC).
+
+The first API I supported was "TheyWorkForYou.com":http://www.theyworkforyou.com/.  I thought it would be interesting to see news links based on MPs and the things they've talked about.
+
+I also tried to support UK flood warnings so I could have Twitter searches for people in those areas talking about the floods, but I got stuck trying to scrape their site.
+
+h3. Future expansion
+
+* I didn't do any work towards *enriching* data, but this could easily be added
+* I designed an iPhone map that would show local data (that's why a lot of the code refers to postcode searches currently)
+* Each API and Scraper should define the datatype inputs it takes for relevant searching
+* APIs and Scraper stubs need to including licensing details
+* I started adding controllers that speak JSON and XML.  The ultimate goal was trusted remote clients that can contribute data -- this would help if a particular site blocks the IP of the scrapers

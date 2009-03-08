@@ -1,0 +1,25 @@
+description 'Flood Warnings Search'
+name 'Flood Warnings Search'
+data_group_name 'Acts of God'
+default 'search'
+hits 10
+
+site do
+  home 'http://www.environment-agency.gov.uk/'
+  search 'http://www.environment-agency.gov.uk/homeandleisure/floods/31618.aspx'
+end
+
+task 'search', :args => 'query' do
+  get(site.search, '')
+  view_state = find_value('#__VIEWSTATE').first[:value]
+  validation = find_value('#__EVENTVALIDATION').first[:value]
+  post(site.search, { 'ctl00$txtTerm' => query, 'ctl00$ddlSearchOption' => 'Postcode', '__VIEWSTATE' => view_state, '__EVENTVALIDATION' => validation, '__EVENTARGUMENT' => '', '__EVENTTARGET' => '', 'ctl00$btnSearch.x' => 6, 'ctl00$btnSearch.y' => 4})
+  # Get results
+  for_each('.ResultItem li', :find_first => ['.text', '.TitleInfoBox a']).each do |status, link|
+    p status
+    p link
+    save({ :link => link, :data_summary => {'Status' => status }, :entity_type => 'Geographical', :address => 'site.search', :name => 'Flood Status' })
+  end
+end
+
+

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  datagroup_id: 1
+  class_name: MyString
+  class_file_name: MyString
+
+two:
+  datagroup_id: 1
+  class_name: MyString
+  class_file_name: MyString
