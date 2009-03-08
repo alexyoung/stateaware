@@ -1,10 +1,10 @@
 h2. Installation
 
-1. Uses geokit: http://geokit.rubyforge.org/readme.html
-2. Needs MySQL or Postgres (due to geokit's requirements)
-3. Add a Google Maps API key to config/initializers/geokit_config.rb
-4. Sign up and get a key from: http://www.theyworkforyou.com/api/ and put it in config/settings.yml (copy my example file and edit it)
-5. Copy the database.yml.example file and edit it
+# Uses geokit: http://geokit.rubyforge.org/readme.html
+# Needs MySQL or Postgres (due to geokit's requirements)
+# Add a Google Maps API key to config/initializers/geokit_config.rb
+# Sign up and get a key from: http://www.theyworkforyou.com/api/ and put it in config/settings.yml (copy my example file and edit it)
+# Copy the database.yml.example file and edit it
 
 h2. Background
 
